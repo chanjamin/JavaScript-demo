@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    var sMessage = "hello world";
+
+    function sayHelloWorld(arg1,arg2) {
+        function inner(){
+            console.log( arg1+arg2+sMessage);
+        }
+        inner();
+    }
+
+    sayHelloWorld("michael"," jackson");
+
+    <!--var iBaseNum = 10;-->
+
+    <!--function addNum(iNum1, iNum2) {-->
+        <!--function doAdd() {-->
+            <!--return iNum1 + iNum2 + iBaseNum;-->
+        <!--}-->
+        <!--return doAdd();-->
+    <!--}-->
+
+    <!--alert(addNum(1,2))-->
+</script>
+</html>

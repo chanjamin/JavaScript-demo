@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    let [foo, [[bar], baz]] = [1, [[2], 3]];
+    let[one,,third]=[1,2,3]
+    let[head,...tail]=[1,2,3,4,5]
+    console.log(tail)
+    let [x,y,...z]=['a']
+    console.log(x,y,z)
+    //部分解构
+    let [a,[b],d]=[1,[2,3],4]
+    console.log(a,b,d)
+    let[sx,xy,sz]=new Set(['a','b'])
+    console.log(sx,xy,sz)
+    //
+    function* fibs() {
+        var a=0;
+        var b=1;
+        while (true){
+            yield a;
+            [a,b]=[b,a+b]
+        }
+    }
+</script>
+</body>
+</html>
