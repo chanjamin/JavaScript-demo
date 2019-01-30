@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript高级程序设计</title>
+</head>
+<body>
+
+</body>
+<script>
+    console.log("______________type of")
+    console.log(typeof null)
+    console.log(typeof undefined)
+    console.log(typeof  this)
+    console.log({})
+    console.log("________________________6 data tpye to boolean");
+    window.onload=function fun() {
+        if("123"){
+            console.log("123")
+        }
+        if(""){
+            console.log("")
+        }
+        if(Number.MAX_VALUE)
+            console.log(Number.MAX_VALUE)
+        if(0)
+            console.log(0)
+        if(NaN)
+            console.log(NaN)
+        if({})
+            console.log(typeof  this)
+        if(null)
+            console.log(null)
+        if(undefined)
+            console.log(undefined)
+        if(1/0)
+            console.log(1/0);
+    }
+    console.log("special value of Number:Nan")
+     console.log(NaN==NaN)
+    console.log(1/0!=NaN)
+    console.log(isNaN(NaN))
+    console.log(isNaN(true))
+
+    console.log("Number(),parseInt(),parseFloat() function")
+    console.log(Number(0xAF))
+    console.log(Number(""))
+    console.log(Number(" "))
+    console.log(Number(011))
+    console.log(parseInt(011))
+    console.log(parseInt("1234bule"))
+    console.log(parseInt("af",16))//2,8,10,16
+    console.log(parseInt("23.9"))//23
+    console.log(parseFloat("0xFF.0xFA"))//only decimal
+    
+    
+    console.log("_____________String on JS")
+    console.log("\xAC")//15
+    console.log("\uFFFF")//unicode
+    // console.log(null.toString())
+    // console.log(undefined.toString())
+
+    num=10;// no var declaration is a global variable
+    console.log((num.toString())); // "10"
+    console.log((num.toString(2))); // "1010"
+    console.log((num.toString(8))); // "12"
+    console.log((num.toString(10))); // "10"
+    console.log((num.toString(16))); // "a"
+    console.log(String(null))
+    console.log("String() 比toString()安全")
+
+    console.log("how to new object on js")
+    var o=new Object();
+    var o2={};
+
+    console.log("Js 特有 for in")
+    for( var proName in window){
+        document.writeln(proName)
+    }
+
+    label:{
+        console.log("fuck")
+    };
+    start:for( var proName in window){
+        document.writeln(proName)
+    }
+
+    console.log("js with")
+    with(location){
+        var qs=search.substring(1)
+        var host=hostname;
+        var url=href
+    }
+</script>
+</html>

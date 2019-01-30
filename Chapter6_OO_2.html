@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建对象</title>
+</head>
+<body>
+<script type="text/javascript">
+
+    console.log("工厂模式")
+
+    function createPerson(name, age, job) {
+        var o = new Object();
+        o.name = name;
+        o.age = age;
+        o.job = job;
+        o.sayName = function () {
+            console.log(this.name);
+        };
+        return o;
+    }
+
+    var person1 = createPerson("Nicholas", 29, "Software Engineer");
+    var person2 = createPerson("Greg", 27, "Doctor");
+
+    console.log("构造函数")
+    // 使用 new 操作符。以这种方式调用构造函数实际上会经历以下 4
+    // 个步骤：
+    // (1) 创建一个新对象；
+    // (2) 将构造函数的作用域赋给新对象（因此 this 就指向了这个新对象）；
+    // (3) 执行构造函数中的代码（为这个新对象添加属性）；
+    // (4) 返回新对象
+    // 这就是为什么 new 中this不是执行环境
+    function Person(name, age, job){
+        this.name = name;
+        this.age = age;
+        this.job = job;
+        this.sayName = function(){
+            console.log(this.name);
+        };
+    }
+    var person1 = new Person("Nicholas", 29, "Software Engineer");
+    var person2 = new Person("Greg", 27, "Doctor");
+
+    //////////////伪构造函数////////////////
+    function Constructor(name, age, job) {
+        var o = new Object();
+        o.name = name;
+        o.age = age;
+        o.job = job;
+        o.sayName = function () {
+            console.log(this.name)
+        }
+        return o;
+    }
+
+    var p0 = Constructor("NI", 18, "Program");
+
+
+
+
+    var p1 = new Person("NI", 18, "Program");
+
+    p1.sayName();
+    console.log(p1.constructor == Person)
+    console.log(p0 instanceof Person)
+    console.log(p1 instanceof Object)
+
+    console.log("构造函数其他用法")
+    // 作为普通函数调用
+    Person("Greg", 27, "Doctor"); // 添加到 window
+    window.sayName(); //"Greg"
+    // 在另一个对象的作用域中调用
+    var o = new Object();
+    Person.call(o, "Kristen", 25, "Nurse");
+    o.sayName(); //"Kristen"
+
+</script>
+<script>
+    ////////////////原型模式///////////////////
+    console.log("原型模式")
+    function PersonnC() {
+        PersonnC.prototype.name = "NiKo";
+        PersonnC.prototype.last_name = "Niao";
+        PersonnC.prototype.sayHi = function () {
+            console.log("hi")
+        }
+    }
+
+    var personnC1 = new PersonnC();
+    var personnC2 = new PersonnC();
+    console.log(PersonnC.prototype)
+    console.log(Object.getPrototypeOf(personnC1)==PersonnC.prototype)
+    console.log(Object.getPrototypeOf(PersonnC))//navtive code
+    console.log(personnC1.sayHi==personnC2.sayHi)
+    console.log(personnC2.__proto__.constructor==PersonnC)
+
+// 监测原型
+    console.log(PersonnC.prototype.isPrototypeOf(personnC1))
+    // 没法直接访问到person实例的[[prototype]]属性
+    console.log(personnC1.prototype)//undefined
+    //ecmascript 提供方法
+    console.log(Object.getPrototypeOf(personnC1))
+    console.log(Object.getPrototypeOf(personnC1).name)
+
+
+    console.log("深入点原型链")
+    console.log(Object.getPrototypeOf(personnC2)==PersonnC.prototype)
+    console.log(Object.getPrototypeOf(PersonnC)==Function.prototype)//这就好说了，构造函数的__proto__就是Function的prototype，也就是说本方法是funtion的实例
+    console.log(Object.getPrototypeOf(Function)==Function.prototype)//方法自然是方法的实例
+    console.log(Object.getPrototypeOf(Function.prototype)==Object.prototype)//Funtion原型是Object原型的实例
+    console.log(Object.getPrototypeOf(Object.prototype)==null)
+</script>
+<script type="text/javascript">
+
+    //实例属性覆盖原型属性
+    personnC1.name="Grey"
+    console.log(personnC1.name)
+    console.log(personnC2.name)
+
+    console.log(personnC2.hasOwnProperty("name"))//false
+    console.log(personnC1.hasOwnProperty("name"))//true
+    console.log(PersonnC.hasOwnProperty("name"))//true
+
+</script>
+<script>
+    //////////////////////in 的另一种用法////////////////////
+    console.log("in 的另一种用法,无论原型/实例属性都返回true")
+    console.log("name" in personnC1)
+    console.log("name" in personnC2)
+    // console.log((personnC1.hasOwnProperty("name")))
+    /////////////检测//////////////////
+    function hasProtoProperty(obj, name) {
+        return !obj.hasOwnProperty(name) && (name in obj);
+    }
+
+    //////////////////////////Object.keys()//////////////////////
+    console.log("要取得对象上所有可枚举的实例属性,可以用object.keys()")
+    var keys = Object.keys(PersonnC.prototype);
+    console.log(keys)
+    var key2=Object.keys(personnC1)
+    console.log(key2)
+
+    ///////////////////重设构造函数/////////////////////////
+    Object.defineProperty(PersonnC.prototype, "constructor", {
+        enumerable: false,
+        value: PersonnC
+    });
+
+    String.prototype.startWith = function (text) {
+        return this.indexOf(text) == 0;
+    }
+
+    // console.log("Hello".startWith("H"))
+
+
+    //////////构造+原型/////////////////////
+    console.log("原型的问题")
+    function PersonOld(){
+    }
+    PersonOld.prototype = {
+        constructor: PersonOld,
+        name : "Nicholas",
+        age : 29,
+        job : "Software Engineer",
+        friends : ["Shelby", "Court"],
+        sayName : function () {
+            console.log(this.name);
+        }
+    };
+    var personOld1 = new PersonOld();
+    var personOld2 = new PersonOld();
+    personOld1.friends.push("Van");
+    console.log(personOld1.friends); //"Shelby,Court,Van" 
+    console.log(personOld2.friends); //"Shelby,Court,Van" 
+    console.log(personOld1.friends === personOld2.friends); //true 
+    
+    
+    console.log("改进，加this")
+    function Person(name, age, job) {
+        this.name = name;
+        this.age = age;
+        this.job = job;
+        this.friends = ["Shelby", "Court"];
+    }
+
+    Person.prototype = {
+        constructor: Person,
+        sayName: function () {
+            console.log(this.name)
+        }
+    }
+
+    var person1 = new Person("Nicholas", 29, "Software Engineer");
+    var person2 = new Person("Greg", 27, "Doctor");
+    person1.friends.push("Niko")
+
+    console.log(person1.friends === person2.friends)
+
+    /////////////////动态原型模式///////////////////////
+    function Person2(name, age, job) {
+        //属性
+        this.name = name;
+        this.age = age;
+        this.job = job;
+        //方法
+        if (typeof this.sayName !== "function") {
+
+            Person.prototype.sayName = function () {
+                console.log(this.name);
+            };
+
+        }
+    }
+
+    /////////////////////寄生构造函数模式/////////////////////
+    function SpecialArray() {
+        //创建数组
+        var values = new Array();
+        //添加值
+        values.push.apply(values, arguments);
+        //添加方法
+        values.toPipedString = function () {
+            return this.join("|");
+        };
+
+        //返回数组
+        return values;
+    }
+
+    var colors = new SpecialArray("red", "blue", "green");
+    console.log(colors.toPipedString()); //"red|blue|green"
+</script>
+</body>
+</html>

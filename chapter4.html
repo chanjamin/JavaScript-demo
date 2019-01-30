@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chapter4</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    console.log("理解基本类型和引用类型的值")
+    // 不能给基本类型的值添加属性
+    var name = "Nicholas";
+    name.age = 27;
+    alert(name.age);
+
+
+    // 复制基本类型变量
+    var num1 = 5;
+    var num2 = num1;
+    // 改变num1的值，2不变
+    num1 = 6;
+    alert("num2=" + num2)//num2=5
+
+    //复制引用类型变量
+    var obj1 = new Object();
+    var obj2 = obj1;
+    obj1.name = "Nicholas";
+    alert("obj2.name=" + obj2.name); //"Nicholas"
+
+    //typeof 和instanceof 需要注意的
+    alert("typeof 和instanceof 需要注意的")
+    alert(typeof (null))
+    alert(null instanceof Object)
+
+    alert(" 延长作用域链")
+
+    function buildUrl() {
+        var qs = "?debug=true";
+        var loc = {}
+        with (loc) {
+            var url = location.href + qs;
+        }
+        return url;
+    }
+
+    alert(buildUrl())
+
+    alert("但在 JavaScript 中，if/for 语句中的变量声明会将变量添加到当前的作用域")
+
+    if (true) {
+        var color = "red";
+    }
+    alert(color)
+
+    for (var i = 0; i < 10; i++) {
+
+    }
+    alert(i)
+
+//手动赋值null,以求脱离执行环境。让垃圾回收
+    i=null;
+
+</script>

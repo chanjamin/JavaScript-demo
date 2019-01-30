@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+    function SuperType() {
+        this.property = true;
+    }
+
+    SuperType.prototype.getSuperValue = function () {
+        return this.property;
+    };
+
+    function SubType() {
+        this.subproperty = false;
+    }
+
+    //继承了 SuperType
+    SubType.prototype = new SuperType();
+    SubType.prototype.getSubValue = function () {
+        return this.subproperty;
+    };
+    var instance = new SubType();
+    console.log(instance.getSuperValue());//undefined  缺点之一，超类原型方法不可见，因为是引用实例
+    console.log(instance.getSubValue());//false
+    console.log(instance)
+
+    console.log("确定原型和实例的关系 1,实例与原型链中的构造函数 2，Object 方法")
+    console.log(instance instanceof Object)
+    console.log(instance instanceof SubType)
+    console.log(instance instanceof SuperType)
+    console.log(Object.prototype.isPrototypeOf(instance))
+    console.log(SubType.prototype.isPrototypeOf(instance))
+
+    console.log("原型链的问题1,超类引用类型被共享 2,参数传递")
+
+    function SuperType() {
+        this.colors = ["red", "blue", "green"];
+    }
+
+    var instance1 = new SubType();
+    instance1.colors.push("black")
+    var instance2 = new SubType();
+    console.log(instance1.colors)
+    console.log(instance2.colors)
+
+    cs();
+
+    function cs() {
+        console.log("解决：Constructor Stealing")
+
+        function SubType() {
+            //原来 SubType.prototype=new SuperType();
+            // 这样实现继承，this 让超类的引用类型也有目标对象。
+            SuperType.call(this)
+        }
+
+        var instance3 = new SubType();
+        instance3.colors.push("black");
+        var instance4 = new SubType();
+        console.log(instance3.colors)
+        console.log(instance4.colors)
+
+    }
+
+    function cs2() {
+        console.log("解决参数传递");
+
+        function SuperType(name) {
+            this.name = name;
+        }
+
+        function SubType(name, age) {
+            console.log(arguments)
+            SuperType.apply(this, arguments)
+            this.age = age;
+        }
+
+        var instance1 = new SubType("Niko", 23);
+        var instance2 = new SubType("John", 22);
+        console.log(instance1)
+        console.log(instance2)
+    }
+
+    cs2()
+
+    console.log("Constructor Stealing 还有超类原型方法子类不可见问题")
+    console.log("conbination inheritance")
+
+    function ci() {
+        function SuperType(name) {
+            this.name = name;
+            this.colors = ["red", "blue", "green"];
+        }
+
+        SuperType.prototype.sayName = function () {
+            console.log(this.name)
+        }
+
+        function SubType(name, age) {
+            SuperType.apply(this, [name]);
+            this.age = age;
+        }
+
+        //构造方法原型指向实例，这一步让子类实例拥有了父类原型方法。因为父类实例__ptoto__指向父类原型。
+        SubType.prototype = new SuperType();
+        //放在上一句之前会报 sayAge is not a function,因为原型引用被修改了，原型方法当然也不存在了
+        SubType.prototype.sayAge = function () {
+            console.log(this.age)
+        }
+        //让constructor回到SubType，这样构造的是子类实例
+        SubType.prototype.constructor = SubType;
+
+        var instance1 = new SubType("Nicholas", 29);
+        instance1.colors.push("black");
+        console.log(instance1)
+        console.log(instance1.colors); //"red,blue,green,black"
+        instance1.sayName(); //"Nicholas";
+        instance1.sayAge(); //29
+        var instance2 = new SubType("Greg", 27);
+        console.log(instance2.colors); //"red,blue,green"
+        instance2.sayName(); //"Greg";
+        instance2.sayAge(); //27
+    }
+
+    ci()
+
+    console.log("Prototypal Inheritance")
+
+    function pi() {
+        //类似子类产生器？
+        function object(o) {
+            function F() {
+            };
+            F.prototype = o;
+            return new F();
+        }
+        //父类
+        var person = {
+            name: "Nicholas",
+            friends: ["Shelby", "Court", "Van"]
+        }
+        var anOtherP = object(person);
+        //屏蔽原型中同名属性
+        anOtherP.name="Greg";
+        //引用共享
+        anOtherP.friends.push("Rob");
+
+        var yetAnotherPerson = object(person);
+        yetAnotherPerson.name = "Linda";
+        yetAnotherPerson.friends.push("Barbie");
+        console.log(yetAnotherPerson.friends)
+
+        //ecma5规范化
+        var anotherPerson=Object.create(person,{name:{value:"Greg"}})
+        console.log(anotherPerson.name)
+    }
+
+    pi()
+    
+    console.log("组合继承最大的问题就是无论什么情况下，都会调用两次超类型构造函数：")
+
+    function jishengzuhe() {
+        console.log("寄生组合式继承")
+        function object(o) {
+            function F() {
+            };
+            F.prototype = o;
+            return new F();
+        }
+
+        function inheritPrototype(subType,superType) {
+            var prototype = object(superType);
+            prototype.constructor=subType;
+            subType.prototype=prototype;
+        }
+
+    }
+
+    jishengzuhe()
+</script>
+</body>
+</html>

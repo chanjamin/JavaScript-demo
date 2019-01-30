@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //声明function方式
+    function sum (num1, num2) {
+        return num1 + num2;
+    }
+    var sum=function(num1, num2) {
+        return num1 + num2;
+    }
+    var sum=new Function("num1","num2","return num1+num2");
+    //函数是对象，函数名是指针
+    var another=sum;
+    console.log(another(10,1))
+    //没有重载
+    function addSomeNumber(num){
+        return num + 100;
+    }
+    function addSomeNumber(num) {
+        return num + 200;
+    }
+    var result = addSomeNumber(100); //300
+    //函数声明与函数表达式
+    console.log(sum2(1,2))//ok
+
+    function sum2(cum,num) {
+        return cum+num;
+    }
+
+
+    // 报错
+    // console.log(sum3(1,2))//sum3 is not a function
+
+    //这种声明要放在使用之前
+    var sum3=function (cum,num) {
+        return cum+num;
+    }
+
+    //作为值的函数
+
+    function a(b,c) {
+        return b(c);
+    }
+    function add10( num) {
+        return num+10;
+    }
+    result=a(add10,1)
+    console.log(result)
+    //-----//
+    function createFunction(propertyNamed) {
+        return function (obj1, obj2) {
+            var r1=obj1[propertyNamed]
+            var r2=obj2[propertyNamed]
+            if(r1<r2)
+                return -1;
+            else if(r1>r2)
+                return 1;
+            else
+                return 0;
+        }
+    }
+    var data= [{name: "Zachary", age: 28}, {name: "Nicholas", age: 29}];
+    data.sort(createFunction('age'))
+    for(i in data){
+        console.log(data[i])
+    }
+    data.sort(function (a2, b) { return a2-b })
+
+    //函数内部属性
+    function factorial(num){
+        if (num <=1) {
+            return 1;
+        } else {
+            return num * factorial(num-1)
+        }
+    }
+    //arguments 的主要用途是保存函数参数，
+    // 但这个对象还有一个名叫 callee 的属性，该属性是一个指针，指向拥有这个 arguments 对象的函数。
+    function factorial2(num) {
+        if (num <=1) {
+            return 1;
+        } else {
+            return num * arguments.callee(num-1)
+        }
+    }
+    //this引用的是函数据以执行的环境对象
+    window.color='red';
+    var o={color:'blue'}
+    function sayColor() {
+        console.log(this.color)
+    }
+    sayColor();//red
+
+
+    o.say=sayColor;//js属性动态添加
+    o.say();//blue
+
+        //caller
+    function outer(){
+        inner();
+    }
+    function inner(){
+        // alert(inner.caller);
+        console.log(arguments.callee.caller)
+    }
+    outer();
+
+        //length 方法参数长度
+    console.log(factorial2.length)
+    console.log(sum3.length)
+
+    //apply,call类似Java反射
+    function testApply(num1, num2) {
+        return num1+num2;
+    }
+    function callTestApply(arg1, arg2) {
+        return testApply.apply(this,arguments)
+    }
+    function callTestApply2(arg1, arg2) {
+        return testApply.apply(this,[arg1,arg2]);
+    }
+    // call()方法与 apply()方法的作用相同，它们的区别仅在于接收参数的方式不同。对于 call()
+    // 方法而言，第一个参数是 this 值没有变化，变化的是其余参数都直接传递给函数。
+    function callTestApply3(arg1, arg2) {
+        return testApply.call(this,arg1,arg2);
+    }
+    console.log(callTestApply(99,1))
+    console.log(callTestApply2(99,1))
+    console.log(callTestApply3(99,1))
+
+        //扩充函数赖以运行的作用域
+    sayColor.call(this)
+    sayColor.call(window)
+    sayColor.call(o);
+
+        //bind()这个方法会创建一个函数的实例，其 this 值会被绑定到传给 bind()函数的值
+    var Bind=sayColor.bind(o)
+    Bind();//blue
+
+</script>
+</html>

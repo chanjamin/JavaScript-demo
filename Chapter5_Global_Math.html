@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //global 方法
+    encodeURI(location.href)
+    decodeURI()
+    decodeURIComponent("fasdh[a9u")
+
+    // eval方法--它只接受一个参数，即要执行的 ECMAScript（或 JavaScript）字符串。
+    // 通过 eval()执行的代码被认为是包含该次调用的执行环境的一部分，因此被执行的代码具有与该执行环境相同的作用域链
+    var msg="hello world";
+    //要放在msg后面
+    var callEval=eval("alert(msg)")
+    // 不能这样用
+    // callEval()
+
+// 可以这样
+    eval('function sayHI(msg){alert("hi "+msg)}')
+    sayHI("eval")
+    // 这样
+    eval('var ev="eval str"')
+    alert(ev)
+
+    // 这样不行
+    // var ev2 = eval('var ev="eval str"');
+    // with(ev2){
+        // alert(ev)
+    // }
+
+    // 获得global
+    var global = function(){
+        return this;
+    }();
+
+</script>
+</html>

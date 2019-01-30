@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    var Gpattern=/at/g;
+    var iPattern=/[bc]at/i;
+    var giPattern=/.at/gi;
+
+    console.log(Gpattern.exec("at1at"))
+
+    var re = null,
+        i;
+    for (i=0; i < 10; i++){
+        re = /cat/g;
+        console.log(re.test("catastrophe"));
+    }
+    console.log("---------------------")
+    for (i=0; i < 10; i++){
+        re = new RegExp("cat", "g");
+        console.log(re.test("catastrophe"));
+    }
+    console.log("///////////////////property of RegExp/////////////////////")
+    console.log(iPattern.source+iPattern.global+iPattern.multiline+iPattern.lastIndex)
+    console.log("///////////////exec();////////////////")
+    var text="mon and dad and baby"
+    var pa=/mon( and dad( and baby)?)?/gi;
+    var match=pa.exec(text)
+    console.log(match.index)
+    console.log(match.input)
+    console.log(match.length)
+    console.log(match[2])
+    console.log(pa.lastIndex)//最后匹配的索引
+    console.log("////////////////////////RegExp构造函数属性////////////////////////////")
+    var myp=new RegExp("(.)hort","g");
+    var text = "this has been a short summer";
+    if(myp.test(text)){
+        console.log(RegExp.input); // this has been a short summer
+        console.log(RegExp.leftContext); // this has been a
+        console.log(RegExp.rightContext); // summer
+        console.log(RegExp.lastMatch); // short
+        console.log(RegExp.lastParen); // s
+        console.log(RegExp.multiline); // false
+        //上下一一对应
+        console.log(RegExp.$_); // this has been a short summer
+        console.log(RegExp["$`"]); // this has been a
+        console.log(RegExp["$'"]); // summer
+        console.log(RegExp["$&"]); // short
+        console.log(RegExp["$+"]); // s
+        console.log(RegExp["$*"]); // false
+        //记录1-9个捕获组
+        console.log(RegExp.$1)
+        console.log(RegExp.$9)
+
+    }
+</script>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>array</title>
+</head>
+<body>
+
+</body>
+<script>
+    alert("几种声明方法")
+    colors=new Array();
+    var colors=new Array(20);
+    var names=new Array("grey");
+    names=Array("tom");
+
+    alert("动态长度")
+    colors[21]="red blue";
+    alert(colors)
+
+    alert("检测数组")
+    var isArray = Array.isArray(colors);
+    alert(isArray);
+
+    alert("对象内置方法")
+    alert(colors.valueOf())
+    alert(colors.toLocaleString())
+    alert(colors.toString())
+
+    alert("重写toString,toLocalString")
+    var p1={
+        toLocaleString:function () {
+            return "Nikolas"
+        },
+        toString:function () {
+            return            "Nicholas"
+        }
+    }
+    var p2={
+        toLocaleString:function () {
+            return"Grigoris"
+        },
+        toString:function () {
+            return"Greg"
+        }
+    }
+    var person=[p1,p2];
+    alert(person); //Nicholas,Greg
+    alert(person.toString()); //Nicholas,Greg
+    alert(person.toLocaleString()); //Nikolaos,Grigorios
+
+    alert("改变数组分隔符")
+    var colors = ["red", "green", "blue"];
+    alert(colors.join("||")); //red||green||blue
+
+    alert("栈方法")
+    colors.push(3);
+    colors.pop();
+
+    alert("队列方法")
+    colors.push(4)
+    var shift = colors.shift(); //取得第一项
+
+    alert("反向队列")
+    colors.unshift([3])//在数组前端添加任意个项并返回新数组的长度
+    colors.pop();
+</script>
+</html>

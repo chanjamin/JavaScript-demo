@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    ////////////////////Date.Parse("")//////////////////////
+    var someDate=new Date(Date.parse("2004-1-23"))
+    var someDate2=new Date(Date.parse("6/12/2013"))
+    var someDate3=new Date(Date.parse("Jan 12,2004"))
+    var someDate4=new Date(Date.parse("Tue May 25 2004 23:13:14 GMT-0900"))
+    var someDate5=new Date(Date.parse("2004-05-25T22:13:14.123Z"))
+    console.log(someDate)
+    console.log(someDate2)
+    console.log(someDate3)
+    console.log(someDate4)
+    console.log(someDate5)
+////////////////////Date.UTC/////////////////////////////////////////
+    var y2k=new Date(Date.UTC(2000,0))//firefox:8:00:00
+    var allFive=new Date(2005,4,5,17,55,55,5555);//Date 构造函数也会模仿 Date.UTC()
+    console.log(y2k)
+    console.log(allFive)
+//////////Date.now///////////////////////////////////////////
+    var start=Date.now();
+    for(var i=0;i<100000;i++){
+        // console.log(i)
+    }
+    var end=Date.now();
+    console.log(end-start)
+////////////////////////+new Date();/////////////////////////////
+    var start2=+new Date();
+    for(var i=0;i<100000;i++){
+        // console.log(i)
+    }
+    var end2=+new Date()
+    console.log(end2-start2)
+//与其他引用类型一样，Date 类型也重写了 toLocaleString()、toString()和 valueOf()方法////////////////////////
+    console.log(Date.now().toLocaleString())//Date.now是对now方法对象的引用
+    console.log(Date.now().toString())
+    console.log(start<start2)
+//Date_API//
+    console.log(Date.now())
+
+    //......
+</script>
+</html>

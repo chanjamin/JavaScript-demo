@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+console.log("Boolean-----------------------------------------------")
+    var Wrapper = new Boolean(false);
+    console.log(Wrapper&&false)
+    console.log(Wrapper instanceof Boolean)
+    console.log(typeof Wrapper)
+
+    console.log("String-----------------------")
+var s=new String("hello")
+    console.log(s[1])
+    console.log(s.charAt(0))
+    console.log(s.charCodeAt(1))
+
+    //string & pattern
+    var text="cat mat fat"
+    var match = text.match(/.at/);
+    alert(typeof match)
+    alert(match.index)
+    alert(match[1])
+///////////////////replace/////////////////////////
+var pos=text.search(/at/)
+    alert(pos)
+    text.replace("at","bt")//cbt mat fat
+    text.replace(/at/g,"bt")//cbt mbt fbt
+
+    text.replace(/(.at)/g,"word($1)")
+
+    function htmlReplace(text) {
+        return text.replace(/[<>"&]/g,function (match,pos,originText) {
+            switch (match){
+                case "<":return "&lt";
+                case ">":return "&gt";
+                case "&":return "&amp";
+                case "\"":return "&quot";
+            }
+        })
+    }
+    alert(htmlReplace("<p class='greeting'>Hello world!</p>"))
+    /////////////split////////////////////////////
+var colorText = "red,blue,green,yellow";
+    colorText.split(",")
+    colorText.split(",",2)
+    colorText.split(/[^\,]+/)
+    /////////////////formCharCode/////////////////////////
+    alert(String.fromCharCode(104,101,108,108,111))
+    alert(String.fromCharCode("/u043"))
+
+</script>
+</html>
